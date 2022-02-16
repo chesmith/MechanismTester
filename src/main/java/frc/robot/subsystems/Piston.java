@@ -6,27 +6,31 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Piston extends SubsystemBase {
   private final Solenoid _solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SOLENOID_ID);
+  private boolean _value = false;
 
   public Piston() {
-    setDefaultCommand(new RunCommand(this::in, this));
+    // setDefaultCommand(new RunCommand(this::in, this));
   }
 
   public void in() {
-    _solenoid.set(false);
+    _value = false;
+    _solenoid.set(_value);
   }
 
   public void out() {
-    _solenoid.set(true);
+    _value = true;
+    _solenoid.set(_value);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("piston", _value);
   }
 }
