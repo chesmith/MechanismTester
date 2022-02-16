@@ -19,6 +19,9 @@ public final class Constants {
     public static final int SOLENOID_ID = 0;
     public static final int SERVO_ID = 0;
 
+    public static final float FORWARD_LIMIT = 100.0f;
+    public static final float REVERSE_LIMIT = 0.0f;
+
     public static final class JoystickConstants {
         //Controllers
         public static final int DRIVER_PORT = 0;
