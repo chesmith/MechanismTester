@@ -31,7 +31,7 @@ public class MotorWithSoftLimits extends SubsystemBase {
     _motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     _motor.setSoftLimit(SoftLimitDirection.kReverse, Constants.REVERSE_LIMIT);
 
-    _motor.setOpenLoopRampRate(0.5);
+    // _motor.setOpenLoopRampRate(0.5);
 
     _encoder.setPosition(0);
 

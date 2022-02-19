@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.util.XboxPOV;
 import frc.robot.util.XboxTrigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -58,6 +59,8 @@ public class RobotContainer {
 
     new XboxTrigger(_joystick, JoystickConstants.LEFT_TRIGGER).whenPressed(new PistonOut(_piston));
     new XboxTrigger(_joystick, JoystickConstants.RIGHT_TRIGGER).whenPressed(new PistonIn(_piston));
+
+    new XboxPOV(_joystick).whenPressed(new POVAction(_joystick));
   }
 
   /**
