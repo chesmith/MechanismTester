@@ -11,10 +11,12 @@ import frc.robot.subsystems.ServoMotor;
 public class ServoMove extends CommandBase {
   private final ServoMotor _servo;
   private final Joystick _joystick;
+  private final int _axis;
   
-  public ServoMove(ServoMotor servo, Joystick joystick) {
+  public ServoMove(ServoMotor servo, Joystick joystick, int axis) {
     _servo = servo;
     _joystick = joystick;
+    _axis = axis;
     addRequirements(_servo);
   }
 
@@ -25,7 +27,9 @@ public class ServoMove extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _servo.set(_joystick);
+    double value = _joystick.getRawAxis(_axis);
+    value = (value + 1)/2;
+    _servo.set(value);
   }
 
   // Called once the command ends or is interrupted.

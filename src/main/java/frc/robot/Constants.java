@@ -17,7 +17,9 @@ public final class Constants {
     public static final int MOTOR_ID = 41;
     public static final int MOTORWITHLIMIT_ID = 42;
     public static final int SOLENOID_ID = 0;
-    public static final int SERVO_ID = 0;
+    public static final int SERVO_1_PORT = 0;
+    public static final int SERVO_2_PORT = 1;
+    public static final int LED_PORT = 2;
 
     public static final float FORWARD_LIMIT = 0.0f;
     public static final float REVERSE_LIMIT = -270.0f;

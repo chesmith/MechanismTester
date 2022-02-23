@@ -4,15 +4,19 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.LEDStrip.LED_MODE;
 import frc.robot.util.XboxPOV;
 import frc.robot.util.XboxTrigger;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -26,14 +30,20 @@ public class RobotContainer {
   private final Joystick _joystick = new Joystick(0);
   private final Motor _motor = new Motor();
   private final Piston _piston = new Piston();
-  private final ServoMotor _servo = new ServoMotor();
+  private final ServoMotor _servo1 = new ServoMotor(Constants.SERVO_1_PORT);
+  private final ServoMotor _servo2 = new ServoMotor(Constants.SERVO_2_PORT);
   private final MotorWithSoftLimits _motorWithSoftLimits = new MotorWithSoftLimits();
+  public LEDStrip Leds = new LEDStrip(9, Constants.LED_PORT);
+
+  private final ADIS16470_IMU _adis16470 = new ADIS16470_IMU();
+  private final Gyro _gyro = new Gyro(_adis16470);
 
   public RobotContainer() {
     configureButtonBindings();
 
     _motor.setDefaultCommand(new MotorGoJoystick(_motor, _joystick));
-    _servo.setDefaultCommand(new ServoMove(_servo, _joystick));
+    _servo1.setDefaultCommand(new ServoMove(_servo1, _joystick, JoystickConstants.RIGHT_STICK_X));
+    // _servo2.setDefaultCommand(new ServoMove(_servo2, _joystick, JoystickConstants.RIGHT_STICK_Y));
   }
 
   /**
@@ -43,10 +53,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(_joystick, JoystickConstants.A).whileHeld(new MotorGoPower(_motor, 0.25));
-    new JoystickButton(_joystick, JoystickConstants.Y).whileHeld(new MotorGoPower(_motor, 0.5));
-    new JoystickButton(_joystick, JoystickConstants.X).whileHeld(new MotorGoPower(_motor, 0.75));
-    new JoystickButton(_joystick, JoystickConstants.B).whileHeld(new MotorGoPower(_motor, 1.0));
+    // new JoystickButton(_joystick, JoystickConstants.A).whileHeld(new MotorGoPower(_motor, 0.25));
+    // new JoystickButton(_joystick, JoystickConstants.Y).whileHeld(new MotorGoPower(_motor, 0.5));
+    // new JoystickButton(_joystick, JoystickConstants.X).whileHeld(new MotorGoPower(_motor, 0.75));
+    // new JoystickButton(_joystick, JoystickConstants.B).whileHeld(new MotorGoPower(_motor, 1.0));
 
     new JoystickButton(_joystick, JoystickConstants.BUMPER_LEFT).whileHeld(new PistonIn(_piston));
     new JoystickButton(_joystick, JoystickConstants.BUMPER_RIGHT).whileHeld(new PistonOut(_piston));
@@ -57,10 +67,15 @@ public class RobotContainer {
     new JoystickButton(_joystick, JoystickConstants.LOGO_LEFT).whileHeld(new MotorToForwardLimit(_motorWithSoftLimits));
     new JoystickButton(_joystick, JoystickConstants.LOGO_RIGHT).whileHeld(new MotorToReverseLimit(_motorWithSoftLimits));
 
-    new XboxTrigger(_joystick, JoystickConstants.LEFT_TRIGGER).whenPressed(new PistonOut(_piston));
-    new XboxTrigger(_joystick, JoystickConstants.RIGHT_TRIGGER).whenPressed(new PistonIn(_piston));
+    new XboxTrigger(_joystick, JoystickConstants.LEFT_TRIGGER).whenPressed(new ServoUp(_servo2));
+    new XboxTrigger(_joystick, JoystickConstants.RIGHT_TRIGGER).whenPressed(new ServoDown(_servo2));
 
     new XboxPOV(_joystick).whenPressed(new POVAction(_joystick));
+
+    new JoystickButton(_joystick, JoystickConstants.A).whenPressed(new InstantCommand(() -> Leds.setColor(Color.kDarkRed), Leds));
+    new JoystickButton(_joystick, JoystickConstants.B).whenPressed(new InstantCommand(() -> Leds.setColor(Color.kDarkGreen), Leds));
+    new JoystickButton(_joystick, JoystickConstants.X).whenPressed(new InstantCommand(() -> Leds.setColor(Color.kBlue), Leds));
+    new JoystickButton(_joystick, JoystickConstants.Y).whenPressed(new InstantCommand(() -> Leds.setColor(Color.kDarkBlue), Leds));
   }
 
   /**

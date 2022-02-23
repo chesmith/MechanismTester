@@ -4,27 +4,30 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.JoystickConstants;
 
 public class ServoMotor extends SubsystemBase {
-  private final Servo _servo = new Servo(Constants.SERVO_ID);
+  private Servo _servo;
+  private final int _port;
   
-  public ServoMotor() {}
+  public ServoMotor(int port) {
+    _port = port;
+    _servo = new Servo(port);
+  }
 
-  public void set(Joystick joystick) {
-    double value = joystick.getRawAxis(JoystickConstants.RIGHT_STICK_X);
-    value = (value + 1)/2;
+  public void set(double value) {
     _servo.set(value);
+  }
+
+  public void setAngle(double degrees) {
+    _servo.setAngle(degrees);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Servo Value", _servo.get());
-    SmartDashboard.putNumber("Servo Angle", _servo.getAngle());
+    SmartDashboard.putNumber("Servo " + _port + " Value", _servo.get());
+    SmartDashboard.putNumber("Servo " + _port + " Angle", _servo.getAngle());
   }
 }
