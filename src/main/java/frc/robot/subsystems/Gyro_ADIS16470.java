@@ -4,17 +4,15 @@
 
 package frc.robot.subsystems;
 
-import java.util.Timer;
-
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Gyro extends SubsystemBase {
+public class Gyro_ADIS16470 extends SubsystemBase {
   private final ADIS16470_IMU _gyro;
   private long _start;
 
-  public Gyro(ADIS16470_IMU gyro) {
+  public Gyro_ADIS16470(ADIS16470_IMU gyro) {
     _gyro = gyro;
 
     _gyro.reset();
@@ -27,10 +25,10 @@ public class Gyro extends SubsystemBase {
     double angle = _gyro.getAngle();
     double drift = (angle / elapsed) * 1000;
     
-    SmartDashboard.putNumber("Gyro.Angle", angle);
-    SmartDashboard.putNumber("Gyro.Drift", drift);
-    SmartDashboard.putNumber("Gyro.Time", elapsed);
+    SmartDashboard.putNumber("ADIS.Angle", angle);
+    SmartDashboard.putNumber("ADIS.Drift", drift);
+    SmartDashboard.putNumber("ADIS.Time", elapsed);
 
-    SmartDashboard.putData("Gyro", _gyro);
+    SmartDashboard.putData("ADIS", _gyro);
   }
 }

@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -12,7 +15,6 @@ import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.LEDStrip.LED_MODE;
 import frc.robot.util.XboxPOV;
 import frc.robot.util.XboxTrigger;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,8 +37,10 @@ public class RobotContainer {
   private final MotorWithSoftLimits _motorWithSoftLimits = new MotorWithSoftLimits();
   public LEDStrip Leds = new LEDStrip(9, Constants.LED_PORT);
 
-  private final ADIS16470_IMU _adis16470 = new ADIS16470_IMU();
-  private final Gyro _gyro = new Gyro(_adis16470);
+  // private final ADIS16470_IMU _adis16470 = new ADIS16470_IMU();
+  // private final Gyro_ADIS16470 _gyro = new Gyro_ADIS16470(_adis16470);
+  private final AHRS _navX = new AHRS(SPI.Port.kMXP);
+  private final Gyro_navX _gyroNavx = new Gyro_navX(_navX);
 
   public RobotContainer() {
     configureButtonBindings();
